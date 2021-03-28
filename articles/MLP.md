@@ -1,10 +1,12 @@
-
-[Pytorch, Neural Collaborative Filtering] MLP를 이용한 영화 추천 모델 실험 
-
-## 소개
+---
+title: '[Pytorch] Neural Collaborative Filtering - MLP 실험'
+date: 2021-03-28 09:00:00 -0400
+categories: recommender-system
+tags: [recommender-system, machine-learning, pytorch, tensorboard, collaborative-filtering, mlp, neural-network]
+---
 
 이번 글에서는 **Pytorch**를 이용하여, Neural Collaborative Filtering논문의 **MLP**(Multi Layer Perceptron) 파트의 실험을 구현해보겠습니다. 참고한 코드는 
-`hexiangnan`의 `PyTorch` 구현 [코드](https://github.com/hexiangnan/neural_collaborative_filtering)입니다.
+`hexiangnan`의 `PyTorch` 구현 [코드](https://github.com/hexiangnan/neural_collaborative_filtering)입니다. 실습을 위한 코드는 [링크](https://github.com/doheelab/NCF)에서 확인하실 수 있습니다.
 
 ## 학습 데이터
 
@@ -31,6 +33,8 @@ from tensorboardX import SummaryWriter
 import pandas as pd
 import scipy.sparse as sp
 ```
+
+## `config`, `args` 설정
 
 ```python
 config = {
@@ -76,7 +80,7 @@ cudnn.benchmark = True
 
 먼저 `ml-1m.train.rating`, `ml-1m.test.negative`에 데이터가 어떤 형식으로 저장되어있는지 확인을 해보겠습니다. `train_data`는 사이즈가 `(994168, 1)`인 DataFrame이며, `test_negative`는 사이즈가 `604000`인 리스트인 것을 확인할 수 있습니다. 
 
-```
+```python
 train_data = pd.read_csv(config["train_rating"])
 with open(config["test_negative"], "r") as fd:
     lines = fd.readlines()
@@ -86,7 +90,7 @@ print(train_data.head(10))
 print(lines[:2])
 ```
 
-![image](https://user-images.githubusercontent.com/57972646/112752295-3e5a1e00-900d-11eb-99b1-105a1aae9f28.png)
+<div style="text-align:center"><img src="https://user-images.githubusercontent.com/57972646/112752295-3e5a1e00-900d-11eb-99b1-105a1aae9f28.png"/></div>
 
 <br/>
 
@@ -105,7 +109,9 @@ train_data = pd.read_csv(
 )
 ```
 
-![image](https://user-images.githubusercontent.com/57972646/112752833-de18ab80-900f-11eb-9225-0a0f1122b867.png)
+
+<div style="text-align:center"><img src="https://user-images.githubusercontent.com/57972646/112752833-de18ab80-900f-11eb-9225-0a0f1122b867.png"/></div>
+
 
 > 테스트 데이터 불러오기
 
@@ -124,13 +130,12 @@ with open(config["test_negative"], "r") as fd:
         line = fd.readline()
 ```
 
-![image](https://user-images.githubusercontent.com/57972646/112753006-d4dc0e80-9010-11eb-8c67-4dd0e2252e3b.png)
+<div style="text-align:center"><img src="https://user-images.githubusercontent.com/57972646/112753006-d4dc0e80-9010-11eb-8c67-4dd0e2252e3b.png"/></div>
 
 
 위에서 설명한 내용을 토대로 `load_all` 함수를 정의하겠습니다.
 
 ```python
-########################## data_utils.py ####################
 def load_all():
     """ We load all the three file here to save time in each epoch. """
     train_data = pd.read_csv(
@@ -426,4 +431,62 @@ if __name__ == "__main__":
 ```
 
 ## 실험결과
+
+20 epoch 동안 학습을 한 결과, 최고 점수는 `HR = 0.690`, `NDCG = 0.414`로 관찰되었습니다. 이는 논문에 나온 결과인 `HR = 0.692`, `NDCG = 0.425`에 약간 못 미치지만, `initialization` 결과에 따라 값은 달라질 수 있으므로 대체로 구현이 잘 되었다고 생각됩니다.
+
+```
+The time elapse of epoch 000 is: 00: 03: 12
+HR: 0.553       NDCG: 0.308
+The time elapse of epoch 001 is: 00: 03: 15
+HR: 0.610       NDCG: 0.351
+The time elapse of epoch 002 is: 00: 03: 16
+HR: 0.644       NDCG: 0.377
+The time elapse of epoch 003 is: 00: 03: 13
+HR: 0.658       NDCG: 0.386
+The time elapse of epoch 004 is: 00: 03: 14
+HR: 0.671       NDCG: 0.398
+The time elapse of epoch 005 is: 00: 03: 12
+HR: 0.672       NDCG: 0.403
+The time elapse of epoch 006 is: 00: 03: 07
+HR: 0.680       NDCG: 0.408
+The time elapse of epoch 007 is: 00: 03: 09
+HR: 0.680       NDCG: 0.407
+The time elapse of epoch 008 is: 00: 03: 08
+HR: 0.687       NDCG: 0.411
+The time elapse of epoch 009 is: 00: 03: 07
+HR: 0.687       NDCG: 0.413
+The time elapse of epoch 010 is: 00: 03: 07
+HR: 0.687       NDCG: 0.411
+The time elapse of epoch 011 is: 00: 03: 08
+HR: 0.688       NDCG: 0.415
+The time elapse of epoch 012 is: 00: 03: 07
+HR: 0.681       NDCG: 0.415
+The time elapse of epoch 013 is: 00: 03: 10
+HR: 0.689       NDCG: 0.414
+The time elapse of epoch 014 is: 00: 03: 16
+HR: 0.682       NDCG: 0.409
+The time elapse of epoch 015 is: 00: 03: 16
+HR: 0.682       NDCG: 0.413
+The time elapse of epoch 016 is: 00: 03: 14
+HR: 0.682       NDCG: 0.412
+The time elapse of epoch 017 is: 00: 03: 14
+HR: 0.684       NDCG: 0.415
+The time elapse of epoch 018 is: 00: 03: 14
+HR: 0.680       NDCG: 0.410
+The time elapse of epoch 019 is: 00: 03: 09
+HR: 0.690       NDCG: 0.414
+End. Best epoch 019: HR = 0.690, NDCG = 0.414
+```
+
+![image](https://user-images.githubusercontent.com/57972646/112757172-94d25700-9023-11eb-9cb0-133c284b487f.png)
+
+## 참고자료
+
+[1] [실습 코드 링크](https://github.com/doheelab/NCF)
+
+[2] [Neural Collaborative Filtering](https://arxiv.org/abs/1708.05031)
+
+[3] [A pytorch GPU implementation of He et al.](https://github.com/guoyang9/NCF)
+
+[4] [movielens 데이터 셋](https://files.grouplens.org/datasets/movielens/ml-1m-README.txt)
 
