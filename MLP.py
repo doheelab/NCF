@@ -14,7 +14,7 @@ import scipy.sparse as sp
 
 ################################## config.py ###########################
 config = {
-    "model": "GMF",
+    "model": "MLP",
     "model_path": "./models/",
     "train_rating": "../save/NCF/ml-1m.train.rating",
     "train_negative": "../save/NCF/ml-1m.train.negative",
