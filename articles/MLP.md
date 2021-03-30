@@ -488,5 +488,5 @@ End. Best epoch 019: HR = 0.690, NDCG = 0.414
 
 [3] [A pytorch GPU implementation of He et al.](https://github.com/guoyang9/NCF)
 
-[4] [movielens 데이터 셋](https://files.grouplens.org/datasets/movielens/ml-1m-README.txt)
+[4] [movielens dataset](https://files.grouplens.org/datasets/movielens/ml-1m-README.txt)
 

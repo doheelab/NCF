@@ -6,7 +6,7 @@ This repo provides a PyTorch implementation and experiment codes for NCF.
 
 ## Dataset
 
-Xiangnan's [repo](https://github.com/hexiangnan/neural_collaborative_filtering/tree/master/Data)
+To run the code, you have to download `ml-1m.train.rating`, `ml-1m.train.negative`, `ml-1m.test.negative` from Xiangnan's [repo](https://github.com/hexiangnan/neural_collaborative_filtering/tree/master/Data) and set the file path in `config` object.
 
 ## Reference
 
@@ -22,9 +22,18 @@ Yangyang Guo's [repo](https://github.com/guoyang9/NCF)
 
 ## Example to run:
 ```
+python MF.py
+python GMF.py
 python MLP.py
 ```
 
+## Experiment Result
+
+Models | MovieLens HR@10 | MovieLens NDCG@10 | 
+------ | --------------- | ----------------- | 
+MLP | 0.690 | 0.414 | |
+MF    | 0.704 | 0.422 | 
+GMF    | 0.706 | 0.423 | 
 
 <!-- Models | MovieLens HR@10 | MovieLens NDCG@10 | Pinterest HR@10 | Pinterest NDCG@10
 ------ | --------------- | ----------------- | --------------- | -----------------
